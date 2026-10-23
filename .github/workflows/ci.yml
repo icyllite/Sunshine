@@ -2,9 +2,9 @@
 name: CI
 permissions: {}
 
-# CI currently builds only the Windows-AMD64 target. The other platform jobs are
-# disabled by the `CI_ENABLE_NON_WINDOWS` repository variable; set it to 'true' to
-# re-enable them.
+# CI currently builds only the Windows-AMD64 and Web UI targets. The other platform
+# jobs are disabled by the `CI_ENABLE_NON_WINDOWS` repository variable; set it to
+# 'true' to re-enable them.
 
 on:
   pull_request:
@@ -205,16 +205,12 @@ jobs:
 
   test-powershell:
     name: PowerShell
-    # Disabled: CI is limited to the Windows-AMD64 target.
-    if: vars.CI_ENABLE_NON_WINDOWS == 'true'
     permissions:
       contents: read
     uses: ./.github/workflows/ci-powershell.yml
 
   web-ui:
     name: Web UI
-    # Disabled: CI is limited to the Windows-AMD64 target.
-    if: vars.CI_ENABLE_NON_WINDOWS == 'true'
     needs: release-setup
     permissions:
       contents: read
@@ -232,6 +228,7 @@ jobs:
       startsWith(github.repository, 'LizardByte/')
     needs:
       - build-windows
+      - web-ui
     permissions:
       contents: read
     runs-on: ubuntu-latest
@@ -272,10 +269,10 @@ jobs:
           #   coverage: true
           # - name: PowerShell
           #   coverage: true
-          # - name: Web-UI
-          #   coverage: true
-          #   coverage_file: coverage/coverage-final.json
-          #   test_results_file: junit.xml
+          - name: Web-UI
+            coverage: true
+            coverage_file: coverage/coverage-final.json
+            test_results_file: junit.xml
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
