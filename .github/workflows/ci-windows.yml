@@ -62,11 +62,12 @@ jobs:
             arch: x86_64
             msystem: ucrt64
             toolchain: ucrt-x86_64
-          - name: Windows-ARM64
-            os: windows-11-arm
-            arch: aarch64
-            msystem: clangarm64
-            toolchain: clang-aarch64
+          # Disabled: CI is limited to the Windows-AMD64 target.
+          # - name: Windows-ARM64
+          #   os: windows-11-arm
+          #   arch: aarch64
+          #   msystem: clangarm64
+          #   toolchain: clang-aarch64
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
