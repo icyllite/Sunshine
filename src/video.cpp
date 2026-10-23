@@ -947,9 +947,11 @@ namespace video {
         {"forced_idr"s, 1},
         {"async_depth"s, 1},
         {"low_delay_brc"s, 1},
-        {"low_power"s, 1},
+        // Low power (VDENC) encoding is disabled unconditionally for H.264.
+        {"low_power"s, 0},
         {"recovery_point_sei"s, 0},
-        {"vcm"s, 1},
+        // VCM rate control is omitted because some hardware doesn't support it.
+        // With CBR_WITH_VBR set, FFmpeg selects VBR when VCM is not requested.
         {"pic_timing_sei"s, 0},
         {"max_dec_frame_buffering"s, 1},
       },
@@ -963,10 +965,7 @@ namespace video {
         {"profile"s, std::to_underlying(qsv::profile_h264_e::high_444p)},
       },
       {},  // YUV444 HDR-specific options
-      {
-        // Fallback options
-        {"low_power"s, 0},  // Some old/low-end Intel GPUs don't support low power encoding
-      },
+      {},  // Fallback options
       "h264_qsv"s,
       {},  // capabilities
     },
