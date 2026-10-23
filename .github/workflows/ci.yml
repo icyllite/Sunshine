@@ -211,6 +211,7 @@ jobs:
 
   web-ui:
     name: Web UI
+    if: vars.CI_ENABLE_NON_WINDOWS == 'true'
     needs: release-setup
     permissions:
       contents: read
